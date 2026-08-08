@@ -1,1 +1,600 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Application Information</title>
+<style>
+  :root{
+    --bg: #0d1117;
+    --panel: #141b24;
+    --panel-line: #23303d;
+    --accent: #986BE0;
+    --accent-dim: #6a479c;
+    --down: #ff4d4d;
+    --text: #e7f0ee;
+    --text-dim: #7e93a0;
+    --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+    --sans: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: radial-gradient(circle at 50% 0%, #1c1526 0%, var(--bg) 55%);
+    color: var(--text);
+    font-family: var(--sans);
+    padding: 28px 18px 60px;
+    min-height: 100vh;
+  }
+  .icon-wrap{
+    width: 60px; height: 60px;
+    border-radius: 18px;
+    background: linear-gradient(155deg, #241a30, #120e18);
+    border: 1px solid var(--panel-line);
+    display:flex; align-items:center; justify-content:center;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(152,107,224,0.10), 0 12px 30px -12px rgba(152,107,224,0.45);
+  }
+  .icon-wrap img{ width: 100%; height: 100%; object-fit: cover; }
+  .header-row{
+    display:flex;
+    align-items:center;
+    gap: 14px;
+    margin: 6px 0 22px;
+  }
+  .header-text h1{ text-align:left; }
+  .header-text .pkg{ text-align:left; margin-top: 3px; }
 
+  h1{
+    text-align:center;
+    font-size: 21px;
+    letter-spacing: 0.2px;
+    font-weight: 700;
+  }
+  .pkg{
+    text-align:center;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+  .badge-row{
+    display:flex; justify-content:flex-start; gap:6px;
+    margin: 8px 0 0;
+    flex-wrap: wrap;
+  }
+  .badge{
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    background: rgba(152,107,224,0.08);
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+
+  .download-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 8px;
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+    color: #ffffff;
+    font-family: var(--sans);
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    box-shadow: 0 10px 24px -10px rgba(152,107,224,0.55);
+  }
+  .download-btn svg{ width: 17px; height: 17px; }
+
+  .panel{
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 16px;
+    padding: 16px 16px;
+    margin-bottom: 14px;
+  }
+  .panel-title{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--accent);
+    font-family: var(--mono);
+    margin-bottom: 10px;
+  }
+
+  .row{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--panel-line);
+    font-size: 13.5px;
+  }
+  .row:last-child{ border-bottom: none; }
+  .row .k{ color: var(--text-dim); }
+  .row .v{ font-family: var(--mono); font-size: 12.5px; text-align:right; }
+
+  .feature{
+    display:flex; gap:10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--panel-line);
+  }
+  .feature:last-child{ border-bottom:none; }
+  .feature .dot{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    margin-top: 6px;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px var(--accent);
+  }
+  .feature .txt{ font-size: 13px; line-height: 1.5; color: var(--text); }
+  .fn-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .fn-item{ text-align:center; }
+  .fn-item .thumb{
+    width: 100%;
+    aspect-ratio: 3/5.2;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(155deg, #241a30, #120e18);
+    border: 1px solid var(--panel-line);
+  }
+  .fn-item .thumb img{ width:100%; height:100%; object-fit: cover; display:block; }
+  .fn-item .cap{
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  .chart-head{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .chart-head .lbl{ font-size: 13px; color: var(--text); }
+  .chart-head .val{
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .chart-box{ position: relative; width: 100%; height: 120px; }
+  .chart-box svg{ width: 100%; height: 100%; overflow: visible; }
+  .chart-line{
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .chart-seg{
+    fill: none;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .chart-fill{ fill: url(#chartGradient); }
+  .chart-dot{
+    fill: var(--accent);
+    filter: drop-shadow(0 0 5px var(--accent));
+  }
+  .chart-range{
+    display:flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 10.5px; color: var(--text-dim);
+    margin-top: 6px;
+  }
+  .feature .txt b{ color: var(--accent); font-weight: 600; }
+
+  .meter{
+    height: 6px;
+    border-radius: 4px;
+    background: #0a0f0c;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .meter-fill{
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+    border-radius: 4px;
+  }
+  .meter-row{ margin-bottom: 12px; }
+  .meter-row:last-child{ margin-bottom: 0; }
+  .meter-label{
+    display:flex; justify-content:space-between;
+    font-size: 12px; color: var(--text-dim);
+    margin-bottom: 2px;
+  }
+  .meter-label span:last-child{ font-family: var(--mono); color: var(--accent); }
+
+  footer{
+    text-align:center;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 22px;
+    font-family: var(--mono);
+    line-height: 1.7;
+  }
+
+  .tg-link{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--panel-line);
+    text-decoration: none;
+    color: var(--text);
+  }
+  .tg-link:last-child{ border-bottom:none; }
+  .tg-icon{
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    flex-shrink:0;
+    background: rgba(152,107,224,0.10);
+    border: 1px solid var(--accent-dim);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tg-icon svg{ width: 19px; height: 19px; }
+  .tg-text{ flex:1; }
+  .tg-title{ font-size: 13.5px; font-weight: 600; }
+  .tg-sub{ font-size: 11.5px; color: var(--text-dim); margin-top: 1px; }
+  .tg-arrow{ color: var(--text-dim); font-size: 14px; }
+</style>
+</head>
+<body>
+
+  <div class="header-row">
+    <div class="icon-wrap">
+      <img src="https://i.ibb.co/ZzMGk4Nc/Picsart-26-07-21-18-28-10-594.png" data-cache-src="https://i.ibb.co/ZzMGk4Nc/Picsart-26-07-21-18-28-10-594.png" alt="App Logo" class="cache-img">
+    </div>
+    <div class="header-text">
+      <h1>Game Optimizer</h1>
+      <div class="badge-row">
+        <span class="badge">v1.0.0</span>
+        <span class="badge">Android 8.0+</span>
+        <span class="badge">Free</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="download-btn" id="downloadBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v12"/>
+      <path d="M7 10l5 5 5-5"/>
+      <path d="M4 19h16"/>
+    </svg>
+    <span id="downloadBtnText">Download</span>
+  </button>
+
+  <div class="panel">
+    <div class="panel-title">Application Info</div>
+    <div class="row"><span class="k">Version</span><span class="v">1.0.0 (build 1)</span></div>
+    <div class="row"><span class="k">Package name</span><span class="v">com.ansxcheats.gameoptimizer</span></div>
+    <div class="row"><span class="k">Developer</span><span class="v">ANSxCHEATS</span></div>
+    <div class="row"><span class="k">Min Android</span><span class="v">8.0 (API 26)</span></div>
+    <div class="row"><span class="k">Size</span><span class="v">~4.8 MB</span></div>
+    <div class="row"><span class="k">Last updated</span><span class="v">Aug 2026</span></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Features</div>
+    <div class="feature">
+      <div class="dot"></div>
+      <div class="txt"><b>RAM Boost</b> — closes background apps to free up memory before a gaming session.</div>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <div class="txt"><b>Game Mode</b> — mutes notifications and blocks interruptions while a game is running.</div>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <div class="txt"><b>CPU Priority</b> — nudges system scheduling so the foreground game gets priority.</div>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <div class="txt"><b>Cache Cleaner</b> — clears junk and temp files to reclaim storage.</div>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <div class="txt"><b>Network Priority</b> — prioritizes the active game's network traffic for lower ping.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Function</div>
+    <div class="fn-grid">
+      <div class="fn-item">
+        <div class="thumb"><img src="https://i.ibb.co/39ngCDYn/Screenshot-20260727-180049.jpg" data-cache-src="https://i.ibb.co/39ngCDYn/Screenshot-20260727-180049.jpg" alt="RAM Boost" class="cache-img"></div>
+        <div class="cap">RAM Boost</div>
+      </div>
+      <div class="fn-item">
+        <div class="thumb"><img src="https://i.ibb.co/9HLWWP7Z/Screenshot-20260727-180054.jpg" data-cache-src="https://i.ibb.co/9HLWWP7Z/Screenshot-20260727-180054.jpg" alt="Game Mode" class="cache-img"></div>
+        <div class="cap">Game Mode</div>
+      </div>
+      <div class="fn-item">
+        <div class="thumb"><img src="https://i.ibb.co/s0pDMj2/Screenshot-20260808-063855.jpg" data-cache-src="https://i.ibb.co/s0pDMj2/Screenshot-20260808-063855.jpg" alt="Cache Cleaner" class="cache-img"></div>
+        <div class="cap">Cache Cleaner</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="chart-head">
+      <span class="lbl">Optimization Score :</span>
+      <span class="val" id="scoreVal">66%</span>
+    </div>
+    <div class="chart-box">
+      <svg viewBox="0 0 300 100" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#986BE0" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#986BE0" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path class="chart-fill" id="chartFill" d=""/>
+        <g id="chartLineGroup"></g>
+        <circle class="chart-dot" id="chartDot" cx="300" cy="50" r="4"/>
+      </svg>
+    </div>
+    <div class="chart-range">
+      <span>Min 66%</span>
+      <span>Max 99%</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Device Snapshot</div>
+    <div class="meter-row">
+      <div class="meter-label"><span>RAM Available</span><span>62%</span></div>
+      <div class="meter"><div class="meter-fill" style="width:62%"></div></div>
+    </div>
+    <div class="meter-row">
+      <div class="meter-label"><span>Storage Free</span><span>41%</span></div>
+      <div class="meter"><div class="meter-fill" style="width:41%"></div></div>
+    </div>
+    <div class="meter-row">
+      <div class="meter-label"><span>Optimization Score</span><span>88%</span></div>
+      <div class="meter"><div class="meter-fill" style="width:88%"></div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Social</div>
+    <a class="tg-link" href="https://t.me/ANSxCHEATSxTOOLS" target="_blank">
+      <div class="tg-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 4L3 11l6 2.5M21 4l-3.5 16L9.5 13.5M21 4L9.5 13.5m0 0V19l3-3"/>
+        </svg>
+      </div>
+      <div class="tg-text">
+        <div class="tg-title">Channel</div>
+        <div class="tg-sub">Updates &amp; announcements</div>
+      </div>
+      <div class="tg-arrow">›</div>
+    </a>
+    <a class="tg-link" href="https://t.me/XyzzAns" target="_blank">
+      <div class="tg-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="3.5"/>
+          <path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/>
+        </svg>
+      </div>
+      <div class="tg-text">
+        <div class="tg-title">App Owner</div>
+        <div class="tg-sub">Contact the developer</div>
+      </div>
+      <div class="tg-arrow">›</div>
+    </a>
+    <a class="tg-link" href="https://www.tiktok.com/@ansxcheats?_r=1&_t=ZS-98hHonRfqzq" target="_blank">
+      <div class="tg-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 3v10.5a3.5 3.5 0 1 1-3.5-3.5"/>
+          <path d="M15 3c.3 2.2 2 4 4.5 4.2"/>
+        </svg>
+      </div>
+      <div class="tg-text">
+        <div class="tg-title">TikTok</div>
+        <div class="tg-sub">Clips &amp; short demos</div>
+      </div>
+      <div class="tg-arrow">›</div>
+    </a>
+    <a class="tg-link" href="https://www.youtube.com/@ANSxCHEATS" target="_blank">
+      <div class="tg-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="6" width="18" height="12" rx="3"/>
+          <path d="M11 9.5l4.5 2.5-4.5 2.5v-5z" fill="#986BE0" stroke="none"/>
+        </svg>
+      </div>
+      <div class="tg-text">
+        <div class="tg-title">YouTube</div>
+        <div class="tg-sub">Tutorials &amp; walkthroughs</div>
+      </div>
+      <div class="tg-arrow">›</div>
+    </a>
+  </div>
+
+  <footer>
+    © 2026 ANSxCHEATS &nbsp;·&nbsp; Built with Sketchware<br>
+    All optimizations run locally on your device
+  </footer>
+  <script>
+    (function(){
+      var MIN = 66, MAX = 99;
+      var MID = (MIN+MAX)/2, AMP = (MAX-MIN)/2;
+      var W = 300, H = 100;
+      var SAMPLES = 24;
+
+      function scoreToY(s){ return 90 - (s - MIN) / (MAX - MIN) * 80; }
+
+      // layered sine waves, all traveling left-to-right (phase = kx - speed*t)
+      function scoreAt(x, t){
+        var s = MID
+          + AMP * 0.55 * Math.sin(x * 0.021 - t * 1.1)
+          + AMP * 0.30 * Math.sin(x * 0.045 - t * 1.7 + 1.1)
+          + AMP * 0.15 * Math.sin(x * 0.011 - t * 0.6 + 2.4);
+        return Math.max(MIN, Math.min(MAX, s));
+      }
+
+      // Catmull-Rom control points for the segment from pts[i] to pts[i+1]
+      function segControlPoints(pts, i){
+        var p0 = pts[i-1] || pts[i];
+        var p1 = pts[i];
+        var p2 = pts[i+1];
+        var p3 = pts[i+2] || p2;
+        var c1x = p1[0] + (p2[0]-p0[0])/6;
+        var c1y = p1[1] + (p2[1]-p0[1])/6;
+        var c2x = p2[0] - (p3[0]-p1[0])/6;
+        var c2y = p2[1] - (p3[1]-p1[1])/6;
+        return [c1x, c1y, c2x, c2y];
+      }
+
+      function fullSmoothPath(pts){
+        var d = 'M' + pts[0][0].toFixed(1) + ',' + pts[0][1].toFixed(1) + ' ';
+        for(var i=0;i<pts.length-1;i++){
+          var c = segControlPoints(pts, i);
+          var p2 = pts[i+1];
+          d += 'C' + c[0].toFixed(1) + ',' + c[1].toFixed(1) + ' ' + c[2].toFixed(1) + ',' + c[3].toFixed(1) + ' ' + p2[0].toFixed(1) + ',' + p2[1].toFixed(1) + ' ';
+        }
+        return d;
+      }
+
+      var lineGroup = document.getElementById('chartLineGroup');
+      var fill = document.getElementById('chartFill');
+      var dot = document.getElementById('chartDot');
+      var val = document.getElementById('scoreVal');
+      var segEls = [];
+
+      function ensureSegments(count){
+        while(segEls.length < count){
+          var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          p.setAttribute('class', 'chart-seg');
+          lineGroup.appendChild(p);
+          segEls.push(p);
+        }
+      }
+
+      function render(t){
+        var pts = [];
+        for(var i=0;i<=SAMPLES;i++){
+          var x = (W/SAMPLES) * i;
+          var y = scoreToY(scoreAt(x, t));
+          pts.push([x, y]);
+        }
+
+        ensureSegments(pts.length - 1);
+        for(var i=0;i<pts.length-1;i++){
+          var c = segControlPoints(pts, i);
+          var p1 = pts[i], p2 = pts[i+1];
+          var d = 'M' + p1[0].toFixed(1) + ',' + p1[1].toFixed(1) +
+                  ' C' + c[0].toFixed(1) + ',' + c[1].toFixed(1) + ' ' + c[2].toFixed(1) + ',' + c[3].toFixed(1) + ' ' + p2[0].toFixed(1) + ',' + p2[1].toFixed(1);
+          segEls[i].setAttribute('d', d);
+          // screen y decreasing = value rising = purple; y increasing = value falling = red
+          var rising = p2[1] < p1[1];
+          segEls[i].setAttribute('stroke', rising ? '#986BE0' : '#ff4d4d');
+        }
+
+        var fullPath = fullSmoothPath(pts);
+        fill.setAttribute('d', fullPath + 'L' + W + ',' + H + ' L0,' + H + ' Z');
+
+        var lastPt = pts[pts.length-1];
+        var prevPt = pts[pts.length-2];
+        dot.setAttribute('cy', lastPt[1].toFixed(1));
+        dot.setAttribute('fill', lastPt[1] < prevPt[1] ? '#986BE0' : '#ff4d4d');
+        var rising2 = lastPt[1] < prevPt[1];
+        val.style.color = rising2 ? '#986BE0' : '#ff4d4d';
+        var lastScore = scoreAt(W, t);
+        val.textContent = Math.round(lastScore) + '%';
+      }
+
+      var t0 = null;
+      function frame(ts){
+        if(!t0) t0 = ts;
+        var t = (ts - t0) / 1000;
+        render(t);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
+
+  <script>
+    (function(){
+      var APK_URL = 'https://github.com/Misterxdev-pro/OnlineSever/raw/main/ANSxCHEATS.apk';
+      var btn = document.getElementById('downloadBtn');
+      var btnText = document.getElementById('downloadBtnText');
+
+      btn.addEventListener('click', function(){
+        // If the Sketchware app has exposed a JS interface (e.g. addJavascriptInterface(obj, "Android")),
+        // hand the URL to native code so it can use DownloadManager + a FileProvider install intent.
+        if (typeof Android !== 'undefined' && typeof Android.downloadAndInstall === 'function') {
+          Android.downloadAndInstall(APK_URL);
+          btnText.textContent = 'Downloading…';
+        } else {
+          // Fallback for plain browsers / no bridge yet: normal download, user installs manually.
+          btnText.textContent = 'Downloading…';
+          var a = document.createElement('a');
+          a.href = APK_URL;
+          a.download = 'ANSxCHEATS.apk';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(function(){ btnText.textContent = 'Download'; }, 2500);
+        }
+      });
+    })();
+  </script>  <script>
+    (function(){
+// Caches remote images in localStorage as base64 so repeat visits load instantly
+      // with no re-download. Works automatically in any regular browser.
+      var imgs = document.querySelectorAll('img.cache-img[data-cache-src]');
+
+      function cacheKey(url){ return 'imgcache:' + url; }
+
+      function toBase64(blob){
+        return new Promise(function(resolve, reject){
+          var reader = new FileReader();
+          reader.onloadend = function(){ resolve(reader.result); };
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      }
+
+      imgs.forEach(function(img){
+        try{
+          var url = img.getAttribute('data-cache-src');
+          if(!url) return;
+
+          var cached = null;
+          try { cached = localStorage.getItem(cacheKey(url)); } catch(e) {}
+
+          if(cached){
+            // instant, no network needed
+            img.src = cached;
+          } else {
+            // src is already set directly in the HTML, so the image shows right away.
+            // Just try to cache it in the background for next visit — failures here are harmless.
+            fetch(url).then(function(res){ return res.blob(); })
+              .then(toBase64)
+              .then(function(base64){
+                try { localStorage.setItem(cacheKey(url), base64); } catch(e) {}
+              })
+              .catch(function(){ /* blocked or offline — image already shown via src, no harm done */ });
+          }
+        } catch(e) { /* never let caching break the visible image */ }
+      });
+    })();
+  </script>
+</body>
+</html>
