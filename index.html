@@ -24,6 +24,12 @@
     font-family: var(--sans);
     padding: 28px 18px 60px;
     min-height: 100vh;
+    opacity: 0;
+    animation: pageFadeIn 0.9s ease forwards;
+  }
+  @keyframes pageFadeIn{
+    from{ opacity: 0; transform: translateY(6px); }
+    to{ opacity: 1; transform: translateY(0); }
   }
   .icon-wrap{
     width: 60px; height: 60px;
@@ -35,7 +41,7 @@
     flex-shrink: 0;
     box-shadow: 0 0 0 1px rgba(152,107,224,0.10), 0 12px 30px -12px rgba(152,107,224,0.45);
   }
-  .icon-wrap img{ width: 100%; height: 100%; object-fit: cover; }
+  .icon-wrap img{ width: 100%; height: 100%; object-fit: cover; object-position: center; }
   .header-row{
     display:flex;
     align-items:center;
@@ -93,6 +99,14 @@
     box-shadow: 0 10px 24px -10px rgba(152,107,224,0.55);
   }
   .download-btn svg{ width: 17px; height: 17px; }
+  .download-count{
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    margin: -12px 0 18px;
+  }
+  .download-count b{ color: var(--accent); font-weight: 700; }
 
   .panel{
     background: var(--panel);
@@ -145,13 +159,45 @@
   .fn-item{ text-align:center; }
   .fn-item .thumb{
     width: 100%;
-    aspect-ratio: 3/5.2;
+    aspect-ratio: 3/6;
     border-radius: 12px;
     overflow: hidden;
     background: linear-gradient(155deg, #241a30, #120e18);
     border: 1px solid var(--panel-line);
   }
-  .fn-item .thumb img{ width:100%; height:100%; object-fit: cover; display:block; }
+  .fn-item .thumb img{ width:100%; height:100%; object-fit: cover; object-position: center; display:block; cursor: pointer; transition: transform 0.15s ease; }
+  .fn-item .thumb img:active{ transform: scale(0.96); }
+
+  .lightbox{
+    position: fixed;
+    inset: 0;
+    background: rgba(5,5,8,0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 24px;
+  }
+  .lightbox.open{ display: flex; }
+  .lightbox img{
+    max-width: 100%;
+    max-height: 85vh;
+    border-radius: 14px;
+    border: 1px solid var(--panel-line);
+    box-shadow: 0 20px 60px -20px rgba(152,107,224,0.5);
+  }
+  .lightbox-close{
+    position: absolute;
+    top: 22px; right: 22px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--panel-line);
+    color: var(--text);
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
   .fn-item .cap{
     font-size: 11px;
     color: var(--text-dim);
@@ -257,12 +303,12 @@
 
   <div class="header-row">
     <div class="icon-wrap">
-      <img src="https://i.ibb.co/ZzMGk4Nc/Picsart-26-07-21-18-28-10-594.png" data-cache-src="https://i.ibb.co/ZzMGk4Nc/Picsart-26-07-21-18-28-10-594.png" alt="App Logo" class="cache-img">
+      <img src="https://i.ibb.co/VYjXz9Jk/Picsart-26-08-09-08-19-35-580.png" alt="App Logo" class="cache-img">
     </div>
     <div class="header-text">
-      <h1>Game Optimizer</h1>
+      <h1>ANSxCHEATS PLUGIN TOOLS</h1>
       <div class="badge-row">
-        <span class="badge">v1.0.0</span>
+        <span class="badge">v1.0</span>
         <span class="badge">Android 8.0+</span>
         <span class="badge">Free</span>
       </div>
@@ -277,62 +323,64 @@
     </svg>
     <span id="downloadBtnText">Download</span>
   </button>
+  <div class="download-count" id="downloadCount">&nbsp;</div>
 
   <div class="panel">
     <div class="panel-title">Application Info</div>
-    <div class="row"><span class="k">Version</span><span class="v">1.0.0 (build 1)</span></div>
-    <div class="row"><span class="k">Package name</span><span class="v">com.ansxcheats.gameoptimizer</span></div>
+    <div class="row"><span class="k">Version</span><span class="v">1.0</span></div>
+    <div class="row"><span class="k">Package name</span><span class="v">com.ansxcheats.tools</span></div>
     <div class="row"><span class="k">Developer</span><span class="v">ANSxCHEATS</span></div>
-    <div class="row"><span class="k">Min Android</span><span class="v">8.0 (API 26)</span></div>
+    <div class="row"><span class="k">Support Android</span><span class="v">8 + 16</span></div>
     <div class="row"><span class="k">Size</span><span class="v">~4.8 MB</span></div>
     <div class="row"><span class="k">Last updated</span><span class="v">Aug 2026</span></div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title">Features</div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>RAM Boost</b> — closes background apps to free up memory before a gaming session.</div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Game Mode</b> — mutes notifications and blocks interruptions while a game is running.</div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>CPU Priority</b> — nudges system scheduling so the foreground game gets priority.</div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Cache Cleaner</b> — clears junk and temp files to reclaim storage.</div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Network Priority</b> — prioritizes the active game's network traffic for lower ping.</div>
-    </div>
+    <div class="row"><span class="k">Total Download</span><span class="v" id="totalDownloadRow">—</span></div>
   </div>
 
   <div class="panel">
     <div class="panel-title">Function</div>
     <div class="fn-grid">
       <div class="fn-item">
-        <div class="thumb"><img src="https://i.ibb.co/39ngCDYn/Screenshot-20260727-180049.jpg" data-cache-src="https://i.ibb.co/39ngCDYn/Screenshot-20260727-180049.jpg" alt="RAM Boost" class="cache-img"></div>
-        <div class="cap">RAM Boost</div>
+        <div class="thumb"><img src="https://i.ibb.co/39ngCDYn/Screenshot-20260727-180049.jpg" data-cache-src="https://i.ibb.co/39ngCDYn/Screenshot-20260727-180049.jpg" alt="Home Page" class="cache-img"></div>
+        <div class="cap">Home Page</div>
       </div>
       <div class="fn-item">
-        <div class="thumb"><img src="https://i.ibb.co/9HLWWP7Z/Screenshot-20260727-180054.jpg" data-cache-src="https://i.ibb.co/9HLWWP7Z/Screenshot-20260727-180054.jpg" alt="Game Mode" class="cache-img"></div>
-        <div class="cap">Game Mode</div>
+        <div class="thumb"><img src="https://i.ibb.co/9HLWWP7Z/Screenshot-20260727-180054.jpg" data-cache-src="https://i.ibb.co/9HLWWP7Z/Screenshot-20260727-180054.jpg" alt="Plugin Page" class="cache-img"></div>
+        <div class="cap">Plugin Page</div>
       </div>
       <div class="fn-item">
-        <div class="thumb"><img src="https://i.ibb.co/s0pDMj2/Screenshot-20260808-063855.jpg" data-cache-src="https://i.ibb.co/s0pDMj2/Screenshot-20260808-063855.jpg" alt="Cache Cleaner" class="cache-img"></div>
-        <div class="cap">Cache Cleaner</div>
+        <div class="thumb"><img src="https://i.ibb.co/s0pDMj2/Screenshot-20260808-063855.jpg" data-cache-src="https://i.ibb.co/s0pDMj2/Screenshot-20260808-063855.jpg" alt="Setting Page" class="cache-img"></div>
+        <div class="cap">Setting Page</div>
       </div>
     </div>
   </div>
 
   <div class="panel">
+    <div class="panel-title">Features</div>
+    <div class="feature">
+      <div class="dot"></div>
+      <div class="txt"><b>Storage Permission Request</b> — This permission is need tools while plugin your device for .</div>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <div class="txt"><b>Notification Permission Request</b> — Needed notification access to send you alert tools update & game update and more. Plugin status and plugin security warming.</div>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <div class="txt"><b>SAF Permission Request</b> — This permission for low android injection Android 8+12 </div>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <div class="txt"><b>Shizuku Permission Request</b> — This permission for high android injection root access </div>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <div class="txt"><b>Quality tools </b> — Use and give me feedback</div>
+    </div>
+  </div>
+
+  <div class="panel">
     <div class="chart-head">
-      <span class="lbl">Optimization Score :</span>
+      <span class="lbl">Bypass Production :</span>
       <span class="val" id="scoreVal">66%</span>
     </div>
     <div class="chart-box">
@@ -429,6 +477,11 @@
     © 2026 ANSxCHEATS &nbsp;·&nbsp; Built with Sketchware<br>
     All optimizations run locally on your device
   </footer>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-close" id="lightboxClose">✕</div>
+    <img id="lightboxImg" src="" alt="">
+  </div>
   <script>
     (function(){
       var MIN = 66, MAX = 99;
@@ -531,11 +584,51 @@
 
   <script>
     (function(){
+      // Real, shared-across-all-visitors counter using the free CountAPI service.
+      // Every device that opens this page and clicks Download increments the same number.
+      var NAMESPACE = 'ansxcheats-gameoptimizer';
+      var KEY = 'downloads';
+      var countEl = document.getElementById('downloadCount');
+
+      function formatCount(n){
+        return n.toLocaleString() + ' users downloaded';
+      }
+
+      function showCount(n){
+        countEl.innerHTML = '<b>' + n.toLocaleString() + '</b> users downloaded';
+        var row = document.getElementById('totalDownloadRow');
+        if(row) row.textContent = n.toLocaleString();
+      }
+
+      // Load current count on page open (does not increment)
+      fetch('https://api.countapi.xyz/get/' + NAMESPACE + '/' + KEY)
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          if (data && typeof data.value === 'number') showCount(data.value);
+          else countEl.innerHTML = '';
+        })
+        .catch(function(){ countEl.innerHTML = ''; });
+
+      window.__bumpDownloadCount = function(){
+        fetch('https://api.countapi.xyz/hit/' + NAMESPACE + '/' + KEY)
+          .then(function(r){ return r.json(); })
+          .then(function(data){
+            if (data && typeof data.value === 'number') showCount(data.value);
+          })
+          .catch(function(){ /* count service unreachable — download still proceeds normally */ });
+      };
+    })();
+  </script>
+
+  <script>
+    (function(){
       var APK_URL = 'https://github.com/Misterxdev-pro/OnlineSever/raw/main/ANSxCHEATS.apk';
       var btn = document.getElementById('downloadBtn');
       var btnText = document.getElementById('downloadBtnText');
 
       btn.addEventListener('click', function(){
+        if (typeof window.__bumpDownloadCount === 'function') window.__bumpDownloadCount();
+
         // If the Sketchware app has exposed a JS interface (e.g. addJavascriptInterface(obj, "Android")),
         // hand the URL to native code so it can use DownloadManager + a FileProvider install intent.
         if (typeof Android !== 'undefined' && typeof Android.downloadAndInstall === 'function') {
@@ -556,7 +649,7 @@
     })();
   </script>  <script>
     (function(){
-// Caches remote images in localStorage as base64 so repeat visits load instantly
+      // Caches remote images in localStorage as base64 so repeat visits load instantly
       // with no re-download. Works automatically in any regular browser.
       var imgs = document.querySelectorAll('img.cache-img[data-cache-src]');
 
@@ -593,6 +686,27 @@
               .catch(function(){ /* blocked or offline — image already shown via src, no harm done */ });
           }
         } catch(e) { /* never let caching break the visible image */ }
+      });
+    })();
+  </script>  <script>
+    (function(){
+      var lightbox = document.getElementById('lightbox');
+      var lightboxImg = document.getElementById('lightboxImg');
+      var closeBtn = document.getElementById('lightboxClose');
+      var thumbs = document.querySelectorAll('.fn-item .thumb img');
+
+      thumbs.forEach(function(img){
+        img.addEventListener('click', function(){
+          lightboxImg.src = img.currentSrc || img.src;
+          lightboxImg.alt = img.alt;
+          lightbox.classList.add('open');
+        });
+      });
+
+      function close(){ lightbox.classList.remove('open'); lightboxImg.src = ''; }
+      closeBtn.addEventListener('click', close);
+      lightbox.addEventListener('click', function(e){
+        if(e.target === lightbox) close();
       });
     })();
   </script>
