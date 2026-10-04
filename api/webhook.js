@@ -2,6 +2,8 @@ const BOT = process.env.BOT_TOKEN;
 const OWNER = String(process.env.OWNER_ID);
 const SB = process.env.SUPABASE_URL;
 const SBK = process.env.SUPABASE_KEY;
+const GEMINI_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
 const DOWNLOAD_LINK = "https://t.me/CloudeHubGfx/876";
 
@@ -36,18 +38,29 @@ const getFaq = async () => {
   return Array.isArray(rows) ? rows : [];
 };
 
-const callClaude = async (body) => {
-  const r = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": process.env.ANTHROPIC_API_KEY,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({ model: "claude-sonnet-5-5", ...body }),
-  });
+// Gemini ခေါ်တဲ့ function (စာသား ဒါမှမဟုတ် ပုံ + စာသား)
+const callGemini = async ({ system, parts, json = false }) => {
+  const r = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": GEMINI_KEY,
+      },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: system }] },
+        contents: [{ role: "user", parts }],
+        generationConfig: {
+          maxOutputTokens: 2048,
+          ...(json ? { responseMimeType: "application/json" } : {}),
+        },
+      }),
+    }
+  );
   const data = await r.json();
-  return data.content?.[0]?.text || "";
+  if (!r.ok) console.error("Gemini error:", JSON.stringify(data));
+  return data.candidates?.[0]?.content?.parts?.map((p) => p.text || "").join("") || "";
 };
 
 const has = (text, words) => {
@@ -113,14 +126,14 @@ async function handleReceipt(msg, username) {
     );
     const b64 = Buffer.from(await imgRes.arrayBuffer()).toString("base64");
     const path = fp.result.file_path.toLowerCase();
-    const mediaType = path.endsWith(".png")
+    const mimeType = path.endsWith(".png")
       ? "image/png"
       : path.endsWith(".webp")
       ? "image/webp"
       : "image/jpeg";
 
-    const text = await callClaude({
-      max_tokens: 600,
+    const text = await callGemini({
+      json: true,
       system:
         "You check payment receipt screenshots (KBZPay, WaveMoney, AYA Pay, CB Pay, bank transfer, etc.) for signs of editing or forgery. " +
         "Look for: inconsistent fonts/sizes/alignment, blurry or pasted numbers, mismatched colors, missing transaction ID, " +
@@ -128,17 +141,9 @@ async function handleReceipt(msg, username) {
         "Valid amounts for this shop: 8000, 15000 or 25000 KS. " +
         "You cannot confirm a real transaction happened, only visual signs. " +
         'Reply ONLY with JSON: {"verdict":"genuine|suspicious|not_receipt|unclear","amount":"","reasons":"short Burmese explanation"}',
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "image",
-              source: { type: "base64", media_type: mediaType, data: b64 },
-            },
-            { type: "text", text: "ဒီပြေစာကို စစ်ပေးပါ။" },
-          ],
-        },
+      parts: [
+        { inline_data: { mime_type: mimeType, data: b64 } },
+        { text: "ဒီပြေစာကို စစ်ပေးပါ။" },
       ],
     });
     const j = JSON.parse(text.replace(/```json|```/g, "").trim());
@@ -219,13 +224,10 @@ async function handleCustomer(msg) {
 
   let reply = "ခဏနေမှ ပြန်ကြိုးစားပါ။";
   try {
-    reply =
-      (await callClaude({
-        max_tokens: 800,
-        system,
-        messages: [{ role: "user", content: text }],
-      })) || reply;
-  } catch (e) {}
+    reply = (await callGemini({ system, parts: [{ text }] })) || reply;
+  } catch (e) {
+    console.error(e);
+  }
 
   await tg(chatId, reply);
   await tg(OWNER, `🤖 → ${username}:\n${reply}`);
@@ -247,4 +249,4 @@ export default async function handler(req, res) {
     console.error(e);
   }
   res.status(200).send("ok");
-    }
+}
