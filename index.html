@@ -1,1198 +1,398 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Application Information</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloude Hub Plugin Tools</title>
+<meta name="description" content="Cloude Hub Plugin Tools — Premium Android tools with SAF and Shizuku support.">
+<meta name="theme-color" content="#080808">
+<link rel="icon" href="https://i.ibb.co/9RfZRZL/1002613713.png">
 <style>
-  :root{
-    --bg: #0d1117;
-    --panel: #141b24;
-    --panel-line: #23303d;
-    --accent: #986BE0;
-    --accent-dim: #6a479c;
-    --down: #ff4d4d;
-    --text: #e7f0ee;
-    --text-dim: #7e93a0;
-    --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
-    --sans: 'Inter', 'Segoe UI', Roboto, sans-serif;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  body{
-    background: radial-gradient(circle at 50% 0%, #1c1526 0%, var(--bg) 55%);
-    color: var(--text);
-    font-family: var(--sans);
-    padding: 28px 18px 60px;
-    min-height: 100vh;
-    opacity: 0;
-    animation: pageFadeIn 0.9s ease forwards;
-  }
-  @keyframes pageFadeIn{
-    from{ opacity: 0; transform: translateY(6px); }
-    to{ opacity: 1; transform: translateY(0); }
-  }
-  .icon-wrap{
-    width: 60px; height: 60px;
-    border-radius: 18px;
-    background: linear-gradient(155deg, #241a30, #120e18);
-    border: 1px solid var(--panel-line);
-    display:flex; align-items:center; justify-content:center;
-    overflow: hidden;
-    flex-shrink: 0;
-    box-shadow: 0 0 0 1px rgba(152,107,224,0.10), 0 12px 30px -12px rgba(152,107,224,0.45);
-  }
-  .icon-wrap img{ width: 100%; height: 100%; object-fit: cover; object-position: center; }
-  .header-row{
-    display:flex;
-    align-items:center;
-    gap: 14px;
-    margin: 6px 0 22px;
-  }
-  .header-text h1{ text-align:left; }
-  .header-text .pkg{ text-align:left; margin-top: 3px; }
+:root{
+  --bg:#080808; --card:#151515; --inner:#202020; --icon:#252525;
+  --text:#FFFFFF; --muted:#999999; --divider:#292929;
+  --btn:#FFFFFF; --btn-text:#111111;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Myanmar",Helvetica,Arial,sans-serif;
+  line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+svg{display:block;flex-shrink:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.icon-box{
+  width:44px;height:44px;border-radius:14px;background:var(--icon);
+  display:flex;align-items:center;justify-content:center;
+}
+.icon-box svg{width:22px;height:22px}
 
-  h1{
-    text-align:center;
-    font-size: 21px;
-    letter-spacing: 0.2px;
-    font-weight: 700;
-  }
-  .pkg{
-    text-align:center;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-dim);
-    margin-top: 4px;
-    letter-spacing: 0.3px;
-  }
-  .badge-row{
-    display:flex; justify-content:flex-start; gap:6px;
-    margin: 8px 0 0;
-    flex-wrap: wrap;
-  }
-  .badge{
-    font-family: var(--mono);
-    font-size: 10.5px;
-    color: var(--accent);
-    border: 1px solid var(--accent-dim);
-    background: rgba(152,107,224,0.08);
-    padding: 3px 8px;
-    border-radius: 999px;
-  }
+/* NAV */
 
-  .download-btn{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap: 8px;
-    width: 100%;
-    padding: 13px;
-    margin-bottom: 18px;
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(135deg, var(--accent), var(--accent-dim));
-    color: #ffffff;
-    font-family: var(--sans);
-    font-size: 14.5px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    box-shadow: 0 10px 24px -10px rgba(152,107,224,0.55);
-  }
-  .download-btn svg{ width: 17px; height: 17px; }
-  .download-count{
-    text-align: center;
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--text-dim);
-    margin: -12px 0 18px;
-  }
-  .download-count b{ color: var(--accent); font-weight: 700; }
+/* HERO */
+.hero{padding:56px 0 24px;text-align:center}
+.app-icon{
+  width:96px;height:96px;border-radius:28px;background:var(--card);
+  border:1px solid var(--divider);margin:0 auto 26px;display:flex;align-items:center;justify-content:center;
+}
+.app-icon .icon-box{width:64px;height:64px;border-radius:20px}
+.app-icon .icon-box svg{width:32px;height:32px}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--divider);
+  color:var(--muted);font-size:12px;padding:7px 14px;border-radius:999px;margin-bottom:18px;
+}
+.badge svg{width:14px;height:14px}
+h1{font-size:clamp(34px,7vw,60px);line-height:1.08;font-weight:800;letter-spacing:-1.2px}
+.sub{color:var(--muted);font-size:clamp(15px,2.4vw,18px);max-width:520px;margin:16px auto 0}
+.cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:30px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-size:15px;font-weight:700;padding:15px 28px;border-radius:16px;transition:transform .15s,opacity .15s;
+}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px}
+.btn-primary{background:var(--btn);color:var(--btn-text)}
+.btn-ghost{background:var(--card);color:var(--text);border:1px solid var(--divider)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+.chip{background:var(--card);border:1px solid var(--divider);color:var(--muted);font-size:12px;padding:6px 12px;border-radius:999px}
 
-  .panel{
-    background: var(--panel);
-    border: 1px solid var(--panel-line);
-    border-radius: 16px;
-    padding: 16px 16px;
-    margin-bottom: 14px;
-  }
-  .panel-title{
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--accent);
-    font-family: var(--mono);
-    margin-bottom: 10px;
-  }
+/* HERO — horizontal premium */
+.hero{padding:28px 0 8px;text-align:left}
+.hero-card{
+  position:relative;background:var(--card);border:1px solid var(--divider);
+  border-radius:32px;padding:22px;overflow:hidden;
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.hero-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 80% at 0% 0%,rgba(255,255,255,.07),transparent 55%);
+}
+.hero-card>*{position:relative}
+.hero-top{display:flex;align-items:center;gap:18px}
+.hero-icon{
+  flex:0 0 auto;width:92px;height:92px;border-radius:28px;background:var(--inner);
+  border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+.hero-icon .icon-box{width:60px;height:60px;border-radius:19px}
+.hero-icon .icon-box svg{width:30px;height:30px}
+.hero-title{min-width:0}
+.hero .badge{margin-bottom:10px;padding:5px 11px;font-size:11px;background:var(--inner)}
+.hero .badge svg{width:13px;height:13px}
+.hero h1{font-size:clamp(26px,6.4vw,46px);line-height:1.06;letter-spacing:-.9px}
+.hero .sub{margin:18px 0 0;max-width:none;font-size:14.5px}
+.hero-actions{display:flex;gap:10px;margin-top:20px}
+.hero-actions .btn-primary{flex:1;padding:16px 20px}
+.btn-square{flex:0 0 54px;width:54px;height:54px;padding:0;border-radius:18px;background:var(--inner)}
+.shine{position:relative;overflow:hidden}
+.shine::after{
+  content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(0,0,0,.09),transparent);
+  transform:skewX(-20deg);animation:shine 3.6s ease-in-out infinite;
+}
+@keyframes shine{0%,55%{left:-60%}100%{left:130%}}
+.hero-divider{height:1px;background:var(--divider);margin:22px -22px 18px}
+.tiles{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin:0 -22px;padding:0 22px 2px}
+.tiles::-webkit-scrollbar{display:none}
+.tile{
+  flex:0 0 auto;min-width:104px;background:var(--inner);border:1px solid var(--divider);
+  border-radius:20px;padding:12px;scroll-snap-align:start;
+}
+.tile .icon-box{width:36px;height:36px;border-radius:12px;margin-bottom:12px}
+.tile .icon-box svg{width:18px;height:18px}
+.tile b{display:block;font-size:13px}
+.tile small{display:block;color:var(--muted);font-size:11px}
+@media(min-width:820px){
+  .hero{padding-top:36px}
+  .hero-card{padding:34px;display:grid;grid-template-columns:1.1fr 1fr;column-gap:40px;align-items:center}
+  .hero-top{grid-column:1}
+  .hero .sub{grid-column:1}
+  .hero-actions{grid-column:1}
+  .hero-divider{display:none}
+  .tiles{grid-column:2;grid-row:1 / span 3;display:grid;grid-template-columns:repeat(2,1fr);margin:0;padding:0;overflow:visible}
+  .tile{min-width:0}
+}
+@media(prefers-reduced-motion:reduce){.shine::after{animation:none}}
 
-  .row{
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 9px 0;
-    border-bottom: 1px solid var(--panel-line);
-    font-size: 13.5px;
-  }
-  .row:last-child{ border-bottom: none; }
-  .row .k{ color: var(--text-dim); }
-  .row .v{ font-family: var(--mono); font-size: 12.5px; text-align:right; }
+/* SECTION HEAD — horizontal */
+section.tight{padding:30px 0}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.sec-head .icon-box{width:42px;height:42px;border-radius:14px;border:1px solid var(--divider)}
+.sec-head h2{font-size:19px;text-align:left;letter-spacing:-.3px;line-height:1.2}
+.sec-head small{display:block;color:var(--muted);font-size:12px}
+.sec-head .hint{margin-left:auto;display:flex;align-items:center;gap:2px;color:var(--muted);font-size:12px;background:var(--card);border:1px solid var(--divider);padding:6px 8px 6px 12px;border-radius:999px}
+.previews{padding-top:2px !important}
+.list{background:var(--card);border:1px solid var(--divider);border-radius:28px;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.li{display:flex;align-items:center;gap:14px;padding:16px 18px;border-top:1px solid var(--divider)}
+.li:first-child{border-top:0}
+.li .icon-box{width:42px;height:42px;border-radius:14px}
+.li b{display:block;font-size:14.5px}
+.li p{color:var(--muted);font-size:12.5px;line-height:1.45;margin-top:1px}
+.li-note{background:var(--inner)}
+@media(min-width:820px){.list{display:grid;grid-template-columns:1fr 1fr}.li:nth-child(2){border-top:0}.li:nth-child(even){border-left:1px solid var(--divider)}.li-note{grid-column:1 / -1;border-left:0 !important}}
 
-  .feature{
-    display:flex; gap:10px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--panel-line);
-  }
-  .feature:last-child{ border-bottom:none; }
-  .feature .dot{
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent);
-    margin-top: 6px;
-    flex-shrink: 0;
-    box-shadow: 0 0 8px var(--accent);
-  }
-  .feature .txt{ font-size: 13px; line-height: 1.5; color: var(--text); }
-  .fn-grid{
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 4px;
-  }
-  .fn-item{ text-align:center; }
-  .fn-item .thumb{
-    width: 100%;
-    aspect-ratio: 3/6;
-    border-radius: 12px;
-    overflow: hidden;
-    background: linear-gradient(155deg, #241a30, #120e18);
-    border: 1px solid var(--panel-line);
-  }
-  .fn-item .thumb img{ width:100%; height:100%; object-fit: cover; object-position: center; display:block; cursor: pointer; transition: transform 0.15s ease; }
-  .fn-item .thumb img:active{ transform: scale(0.96); }
+/* LOGO + DOWNLOAD */
+.logo{display:block;object-fit:cover;background:var(--inner)}
+.hero-icon .logo{width:68px;height:68px;border-radius:21px}
+.hero h2.dl-title{font-size:clamp(26px,6.4vw,46px);line-height:1.06;letter-spacing:-.9px;text-align:left;font-weight:800}
+.hero .badge svg{stroke:#fff}
 
-  .lightbox{
-    position: fixed;
-    inset: 0;
-    background: rgba(5,5,8,0.92);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-    padding: 24px;
-  }
-  .lightbox.open{ display: flex; }
-  .lightbox img{
-    max-width: 100%;
-    max-height: 85vh;
-    border-radius: 14px;
-    border: 1px solid var(--panel-line);
-    box-shadow: 0 20px 60px -20px rgba(152,107,224,0.5);
-  }
-  .lightbox-close{
-    position: absolute;
-    top: 22px; right: 22px;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid var(--panel-line);
-    color: var(--text);
-    font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-  }
-  .fn-item .cap{
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-top: 6px;
-  }
+/* SECTION */
+section{padding:56px 0}
+.eyebrow{color:var(--muted);font-size:12px;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-bottom:10px}
+h2{font-size:clamp(26px,5vw,38px);text-align:center;font-weight:800;letter-spacing:-.6px}
+.lead{color:var(--muted);text-align:center;font-size:15px;max-width:460px;margin:12px auto 0}
 
-  .chart-head{
-    display:flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 10px;
-  }
-  .chart-head .lbl{ font-size: 13px; color: var(--text); }
-  .chart-head .val{
-    font-family: var(--mono);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-  .chart-box{ position: relative; width: 100%; height: 120px; }
-  .chart-box svg{ width: 100%; height: 100%; overflow: visible; }
-  .chart-line{
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 2.4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .chart-seg{
-    fill: none;
-    stroke-width: 2.4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .chart-fill{ fill: url(#chartGradient); }
-  .chart-dot{
-    fill: var(--accent);
-    filter: drop-shadow(0 0 5px var(--accent));
-  }
-  .chart-range{
-    display:flex; justify-content: space-between;
-    font-family: var(--mono); font-size: 10.5px; color: var(--text-dim);
-    margin-top: 6px;
-  }
-  .feature .txt b{ color: var(--accent); font-weight: 600; }
+/* PREVIEWS */
+.previews{
+  display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:40px 20px 12px;margin:0 -20px;scrollbar-width:none;
+}
+.previews::-webkit-scrollbar{display:none}
+@media(min-width:900px){.previews{justify-content:center;overflow:visible}}
+.phone{
+  flex:0 0 232px;scroll-snap-align:center;background:var(--card);border:1px solid var(--divider);
+  border-radius:36px;padding:10px;
+}
+.screen{background:var(--bg);border-radius:28px;height:470px;padding:16px 14px;overflow:hidden;position:relative}
+.status{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-bottom:14px;padding:0 4px}
+.s-title{font-size:15px;font-weight:800;margin-bottom:2px}
+.s-sub{font-size:10px;color:var(--muted);margin-bottom:14px}
+.row{display:flex;align-items:center;gap:10px;background:var(--inner);border-radius:16px;padding:10px;margin-bottom:8px}
+.row .icon-box{width:34px;height:34px;border-radius:11px}
+.row .icon-box svg{width:16px;height:16px}
+.row b{display:block;font-size:11px}
+.row small{display:block;font-size:9px;color:var(--muted)}
+.row .tag{margin-left:auto;font-size:9px;background:var(--btn);color:var(--btn-text);padding:4px 9px;border-radius:999px;font-weight:700}
+.row .tag.off{background:var(--icon);color:var(--muted)}
+.mini-card{background:var(--card);border:1px solid var(--divider);border-radius:18px;padding:12px;margin-bottom:10px}
+.mini-btn{background:var(--btn);color:var(--btn-text);text-align:center;font-size:11px;font-weight:700;padding:11px;border-radius:13px;margin-top:10px}
+.bar{height:6px;background:var(--icon);border-radius:99px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--btn);border-radius:99px}
+.cap{text-align:center;color:var(--muted);font-size:12px;margin-top:14px}
 
-  .meter{
-    height: 6px;
-    border-radius: 4px;
-    background: #0a0f0c;
-    overflow: hidden;
-    margin-top: 6px;
-  }
-  .meter-fill{
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
-    border-radius: 4px;
-  }
-  .meter-row{ margin-bottom: 12px; }
-  .meter-row:last-child{ margin-bottom: 0; }
-  .meter-label{
-    display:flex; justify-content:space-between;
-    font-size: 12px; color: var(--text-dim);
-    margin-bottom: 2px;
-  }
-  .meter-label span:last-child{ font-family: var(--mono); color: var(--accent); }
+.shot{display:block;width:100%;height:auto;border-radius:28px;background:var(--inner);min-height:300px;object-fit:cover}
+/* INFO */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:36px}
+.card{background:var(--card);border:1px solid var(--divider);border-radius:24px;padding:22px}
+.card .icon-box{margin-bottom:16px}
+.card h3{font-size:16px;font-weight:700;margin-bottom:6px}
+.card p{color:var(--muted);font-size:13.5px}
 
-  footer{
-    text-align:center;
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-top: 22px;
-    font-family: var(--mono);
-    line-height: 1.7;
-  }
+.info{background:var(--card);border:1px solid var(--divider);border-radius:28px;padding:8px 22px;margin-top:36px}
+.info-row{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--divider)}
+.info-row:last-child{border-bottom:0}
+.info-row span.k{color:var(--muted);font-size:13px;margin-left:auto}
+.info-row span.v{font-size:14px;font-weight:600}
 
-  .tg-link{
-    display:flex;
-    align-items:center;
-    gap: 12px;
-    padding: 12px 4px;
-    border-bottom: 1px solid var(--panel-line);
-    text-decoration: none;
-    color: var(--text);
-  }
-  .tg-link:last-child{ border-bottom:none; }
-  .tg-icon{
-    width: 38px; height: 38px;
-    border-radius: 10px;
-    flex-shrink:0;
-    background: rgba(152,107,224,0.10);
-    border: 1px solid var(--accent-dim);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .tg-icon svg{ width: 19px; height: 19px; }
-  .tg-text{ flex:1; }
-  .tg-title{ font-size: 13.5px; font-weight: 600; }
-  .tg-sub{ font-size: 11.5px; color: var(--text-dim); margin-top: 1px; }
-  .tg-arrow{ color: var(--text-dim); font-size: 14px; }
+.note{
+  display:flex;gap:14px;align-items:flex-start;background:var(--inner);border:1px solid var(--divider);
+  border-radius:20px;padding:18px;margin-top:14px;
+}
+.note b{display:block;font-size:14px;margin-bottom:2px}
+.note p{color:var(--muted);font-size:13px}
+
+/* DOWNLOAD */
+.dl{background:var(--card);border:1px solid var(--divider);border-radius:32px;padding:44px 22px;text-align:center}
+.dl .app-icon{width:80px;height:80px;border-radius:24px;background:var(--inner);margin-bottom:18px}
+.dl .app-icon .icon-box{width:52px;height:52px;border-radius:16px}
+.dl .app-icon .icon-box svg{width:26px;height:26px}
+.dl h2{font-size:clamp(24px,4.5vw,32px)}
+
+/* LINKS */
+.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:36px}
+.link{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--divider);border-radius:22px;padding:16px;transition:background .15s}
+.link:active{background:var(--inner)}
+.link b{display:block;font-size:15px}
+.link small{color:var(--muted);font-size:12px}
+.link .arrow{margin-left:auto;width:18px;height:18px}
+
+footer{border-top:1px solid var(--divider);padding:28px 0 40px;text-align:center;color:var(--muted);font-size:12px}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 
-  <div class="header-row">
-    <div class="icon-wrap">
-      <img src="https://i.ibb.co/KcZ3059n/Picsart-26-08-09-08-27-02-991.png" alt="App Logo" class="cache-img">
-    </div>
-    <div class="header-text">
-      <h1>ANSxCHEATS PLUGIN TOOLS</h1>
-      <div class="badge-row">
-        <span class="badge">v1.0</span>
-        <span class="badge">Android 8.0+</span>
-        <span class="badge">Free</span>
+<!-- SVG SYMBOLS -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-logo" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4 4 0 0 1 .5 7.97"/><path d="M12 11v7M9 15l3 3 3-3"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></symbol>
+    <symbol id="i-telegram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 3.5 2.8 10.7c-.8.3-.8 1.4 0 1.7l4.6 1.6 1.8 5.6c.2.7 1.1.9 1.6.4l2.6-2.4 4.7 3.4c.6.4 1.4.1 1.6-.6L22.9 4.9c.2-.8-.6-1.7-1.4-1.4Z"/><path d="m7.4 14 10-7.2-7.8 8.6"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20.5c.8-4 4-6 8-6s7.2 2 8 6"/></symbol>
+    <symbol id="i-plugin" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5M6 8h12v4a6 6 0 0 1-12 0V8Z"/><path d="M12 18v3"/></symbol>
+    <symbol id="i-crown" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 8 4.5 4L12 5l4.5 7L21 8l-2 11H5L3 8Z"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3Z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.5 3.2 8.2 7.5 9.5 4.3-1.3 7.5-5 7.5-9.5V6L12 3Z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H12L11 22l8.5-11.5H12L13 2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="3"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></symbol>
+    <symbol id="i-android" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16V10a7 7 0 0 1 14 0v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"/><path d="m7.5 4 1.8 2.4M16.5 4l-1.8 2.4"/><circle cx="9.5" cy="11" r=".6" fill="#fff"/><circle cx="14.5" cy="11" r=".6" fill="#fff"/></symbol>
+    <symbol id="i-vpn" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 2.6 4.2 5.6 4.2 9s-1.4 6.4-4.2 9c-2.8-2.6-4.2-5.6-4.2-9S9.2 5.6 12 3Z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9Z"/><circle cx="8" cy="8" r="1.3"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.1"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16v10H10l-4.5 3.5v-3.5H4v-10Z"/></symbol>
+  </defs>
+</svg>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-card reveal">
+      <div class="hero-top">
+        <div class="hero-icon"><img class="logo" src="https://i.ibb.co/9RfZRZL/1002613713.png" alt="Cloude Hub" decoding="async" referrerpolicy="no-referrer"></div>
+        <div class="hero-title">
+          <div class="badge"><svg><use href="#i-crown"/></svg> Premium Android Tools</div>
+          <h1>Cloude Hub<br>Plugin Tools</h1>
+        </div>
+      </div>
+      <p class="sub">Premium function, premium quality — a clean and powerful toolkit built for Android.</p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary shine" href="https://github.com/Misterxdev-pro/OnlineSever/raw/main/CloudeHub.apk" download>
+          <svg><use href="#i-download"/></svg> Download APK
+        </a>
+        <a class="btn btn-ghost btn-square" href="https://t.me/CloudeHubPluginTools" target="_blank" rel="noopener" aria-label="Telegram Channel">
+          <svg><use href="#i-telegram"/></svg>
+        </a>
+      </div>
+
+      <div class="hero-divider"></div>
+
+      <div class="tiles">
+        <div class="tile"><div class="icon-box"><svg><use href="#i-android"/></svg></div><b>Android</b><small>Permission</small></div>
+        <div class="tile"><div class="icon-box"><svg><use href="#i-folder"/></svg></div><b>SAF</b><small>File access</small></div>
+        <div class="tile"><div class="icon-box"><svg><use href="#i-shield"/></svg></div><b>Shizuku</b><small>Elevated</small></div>
+        <div class="tile"><div class="icon-box"><svg><use href="#i-crown"/></svg></div><b>Premium</b><small>Function</small></div>
+        <div class="tile"><div class="icon-box"><svg><use href="#i-vpn"/></svg></div><b>VPN</b><small>Required</small></div>
       </div>
     </div>
   </div>
+</header>
 
-  <button class="download-btn" id="downloadBtn">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 3v12"/>
-      <path d="M7 10l5 5 5-5"/>
-      <path d="M4 19h16"/>
-    </svg>
-    <span id="downloadBtnText">Download</span>
-  </button>
-  <div class="download-count" id="downloadCount">&nbsp;</div>
-
-  <div class="panel">
-    <div class="panel-title">Application Info</div>
-    <div class="row"><span class="k">Version</span><span class="v">1.0</span></div>
-    <div class="row"><span class="k">Package name</span><span class="v">com.ansxcheats.tools</span></div>
-    <div class="row"><span class="k">Developer</span><span class="v">ANSxCHEATS</span></div>
-    <div class="row"><span class="k">Support Android</span><span class="v">8 + 16</span></div>
-    <div class="row"><span class="k">Size</span><span class="v"> 12.0 MB</span></div>
-    <div class="row"><span class="k">Last updated</span><span class="v">Aug 2026</span></div>
-    <div class="row"><span class="k">Total Download</span><span class="v" id="totalDownloadRow">—</span></div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title">Function</div>
-    <div class="fn-grid">
-      <div class="fn-item">
-        <div class="thumb"><img src="https://i.ibb.co/39ngCDYn/Screenshot-20260727-180049.jpg" data-cache-src="https://i.ibb.co/39ngCDYn/Screenshot-20260727-180049.jpg" alt="Home Page" class="cache-img"></div>
-        <div class="cap">Home Page</div>
-      </div>
-      <div class="fn-item">
-        <div class="thumb"><img src="https://i.ibb.co/9HLWWP7Z/Screenshot-20260727-180054.jpg" data-cache-src="https://i.ibb.co/9HLWWP7Z/Screenshot-20260727-180054.jpg" alt="Plugin Page" class="cache-img"></div>
-        <div class="cap">Plugin Page</div>
-      </div>
-      <div class="fn-item">
-        <div class="thumb"><img src="https://i.ibb.co/s0pDMj2/Screenshot-20260808-063855.jpg" data-cache-src="https://i.ibb.co/s0pDMj2/Screenshot-20260808-063855.jpg" alt="Setting Page" class="cache-img"></div>
-        <div class="cap">Setting Page</div>
-      </div>
+<!-- PREVIEWS -->
+<section id="preview" class="tight">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="icon-box"><svg><use href="#i-grid"/></svg></div>
+      <div><h2>App Previews</h2><small>Minimal dark interface</small></div>
+      <span class="hint">Swipe <svg width="16" height="16"><use href="#i-chev"/></svg></span>
     </div>
   </div>
+  <div class="wrap">
+    <div class="previews">
+      <div>
+        <div class="phone"><img class="shot" src="https://i.ibb.co/q3zssBC2/1002635894.jpg" alt="Cloude Hub Plugin Tools - Main" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div>
+        <div class="cap">Main</div>
+      </div>
 
-  <div class="panel">
-    <div class="panel-title">Features</div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Storage Permission Request</b> — This permission is need tools while plugin your device for .</div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Notification Permission Request</b> — Needed notification access to send you alert tools update & game update and more. Plugin status and plugin security warming.</div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>SAF Permission Request</b> — This permission for low android injection Android 8+12 </div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Shizuku Permission Request</b> — This permission for high android injection root access </div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Quality tools </b> — Use and give me feedback</div>
+      <div>
+        <div class="phone"><img class="shot" src="https://i.ibb.co/cmxxYfV/1002635895.jpg" alt="Cloude Hub Plugin Tools - Plugin" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div>
+        <div class="cap">Plugin</div>
+      </div>
+
+      <div>
+        <div class="phone"><img class="shot" src="https://i.ibb.co/gLqp4BWs/1002635896.jpg" alt="Cloude Hub Plugin Tools - Account" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div>
+        <div class="cap">Account</div>
+      </div>
+
     </div>
   </div>
+</section>
 
-  <div class="panel">
-    <div class="chart-head">
-      <span class="lbl">Bypass Production :</span>
-      <span class="val" id="scoreVal">66%</span>
+<!-- FEATURES -->
+<section class="tight">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="icon-box"><svg><use href="#i-info"/></svg></div>
+      <div><h2>Information</h2><small>What's inside</small></div>
     </div>
-    <div class="chart-box">
-      <svg viewBox="0 0 300 100" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#986BE0" stop-opacity="0.35"/>
-            <stop offset="100%" stop-color="#986BE0" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <path class="chart-fill" id="chartFill" d=""/>
-        <g id="chartLineGroup"></g>
-        <circle class="chart-dot" id="chartDot" cx="300" cy="50" r="4"/>
-      </svg>
+    <div class="grid" style="margin-top:0">
+      <div class="card reveal">
+        <div class="icon-box"><svg><use href="#i-plugin"/></svg></div>
+        <h3>Cloude Hub Plugin Tools</h3>
+        <p>A plugin-based toolkit that keeps everything organized in one place.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon-box"><svg><use href="#i-crown"/></svg></div>
+        <h3>Premium Function</h3>
+        <p>Advanced functions designed for a smoother, more capable experience.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon-box"><svg><use href="#i-star"/></svg></div>
+        <h3>Premium Quality</h3>
+        <p>Clean, polished and carefully built from the first tap to the last.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon-box"><svg><use href="#i-android"/></svg></div>
+        <h3>Android Permission</h3>
+        <p>Works with Android's permission system for proper, safe access.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon-box"><svg><use href="#i-folder"/></svg></div>
+        <h3>SAF</h3>
+        <p>Storage Access Framework support for reliable file access.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon-box"><svg><use href="#i-shield"/></svg></div>
+        <h3>Shizuku</h3>
+        <p>Shizuku integration for elevated access without the hassle.</p>
+      </div>
     </div>
-    <div class="chart-range">
-      <span>Min 66%</span>
-      <span>Max 99%</span>
-    </div>
-  </div>
 
-  <div class="panel">
-    <div class="panel-title">Device Snapshot</div>
-    <div class="meter-row">
-      <div class="meter-label"><span>RAM Available</span><span>62%</span></div>
-      <div class="meter"><div class="meter-fill" style="width:62%"></div></div>
-    </div>
-    <div class="meter-row">
-      <div class="meter-label"><span>Storage Free</span><span>41%</span></div>
-      <div class="meter"><div class="meter-fill" style="width:41%"></div></div>
-    </div>
-    <div class="meter-row">
-      <div class="meter-label"><span>Optimization Score</span><span>88%</span></div>
-      <div class="meter"><div class="meter-fill" style="width:88%"></div></div>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title">Social</div>
-    <a class="tg-link" href="https://t.me/ANSxCHEATSxTOOLS" target="_blank">
-      <div class="tg-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 4L3 11l6 2.5M21 4l-3.5 16L9.5 13.5M21 4L9.5 13.5m0 0V19l3-3"/>
-        </svg>
-      </div>
-      <div class="tg-text">
-        <div class="tg-title">Channel</div>
-        <div class="tg-sub">Updates &amp; announcements</div>
-      </div>
-      <div class="tg-arrow">›</div>
-    </a>
-    <a class="tg-link" href="https://t.me/XyzzAns" target="_blank">
-      <div class="tg-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="3.5"/>
-          <path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/>
-        </svg>
-      </div>
-      <div class="tg-text">
-        <div class="tg-title">App Owner</div>
-        <div class="tg-sub">Contact the developer</div>
-      </div>
-      <div class="tg-arrow">›</div>
-    </a>
-    <a class="tg-link" href="https://www.tiktok.com/@ansxcheats?_r=1&_t=ZS-98hHonRfqzq" target="_blank">
-      <div class="tg-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 3v10.5a3.5 3.5 0 1 1-3.5-3.5"/>
-          <path d="M15 3c.3 2.2 2 4 4.5 4.2"/>
-        </svg>
-      </div>
-      <div class="tg-text">
-        <div class="tg-title">TikTok</div>
-        <div class="tg-sub">Clips &amp; short demos</div>
-      </div>
-      <div class="tg-arrow">›</div>
-    </a>
-    <a class="tg-link" href="https://www.youtube.com/@ANSxCHEATS" target="_blank">
-      <div class="tg-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="6" width="18" height="12" rx="3"/>
-          <path d="M11 9.5l4.5 2.5-4.5 2.5v-5z" fill="#986BE0" stroke="none"/>
-        </svg>
-      </div>
-      <div class="tg-text">
-        <div class="tg-title">YouTube</div>
-        <div class="tg-sub">Tutorials &amp; walkthroughs</div>
-      </div>
-      <div class="tg-arrow">›</div>
-    </a>
-  </div>
-
-  <footer>
-    © 2026 ANSxCHEATS &nbsp;·&nbsp; Built with Sketchware<br>
-    All optimizations run locally on your device
-  </footer>
-
-  <div class="lightbox" id="lightbox">
-    <div class="lightbox-close" id="lightboxClose">✕</div>
-    <img id="lightboxImg" src="" alt="">
-  </div>
-  <script>
-    (function(){
-      var MIN = 66, MAX = 99;
-      var MID = (MIN+MAX)/2, AMP = (MAX-MIN)/2;
-      var W = 300, H = 100;
-      var SAMPLES = 24;
-
-      function scoreToY(s){ return 90 - (s - MIN) / (MAX - MIN) * 80; }
-
-      // layered sine waves, all traveling left-to-right (phase = kx - speed*t)
-      function scoreAt(x, t){
-        var s = MID
-          + AMP * 0.55 * Math.sin(x * 0.021 - t * 1.1)
-          + AMP * 0.30 * Math.sin(x * 0.045 - t * 1.7 + 1.1)
-          + AMP * 0.15 * Math.sin(x * 0.011 - t * 0.6 + 2.4);
-        return Math.max(MIN, Math.min(MAX, s));
-      }
-
-      // Catmull-Rom control points for the segment from pts[i] to pts[i+1]
-      function segControlPoints(pts, i){
-        var p0 = pts[i-1] || pts[i];
-        var p1 = pts[i];
-        var p2 = pts[i+1];
-        var p3 = pts[i+2] || p2;
-        var c1x = p1[0] + (p2[0]-p0[0])/6;
-        var c1y = p1[1] + (p2[1]-p0[1])/6;
-        var c2x = p2[0] - (p3[0]-p1[0])/6;
-        var c2y = p2[1] - (p3[1]-p1[1])/6;
-        return [c1x, c1y, c2x, c2y];
-      }
-
-      function fullSmoothPath(pts){
-        var d = 'M' + pts[0][0].toFixed(1) + ',' + pts[0][1].toFixed(1) + ' ';
-        for(var i=0;i<pts.length-1;i++){
-          var c = segControlPoints(pts, i);
-          var p2 = pts[i+1];
-          d += 'C' + c[0].toFixed(1) + ',' + c[1].toFixed(1) + ' ' + c[2].toFixed(1) + ',' + c[3].toFixed(1) + ' ' + p2[0].toFixed(1) + ',' + p2[1].toFixed(1) + ' ';
-        }
-        return d;
-      }
-
-      var lineGroup = document.getElementById('chartLineGroup');
-      var fill = document.getElementById('chartFill');
-      var dot = document.getElementById('chartDot');
-      var val = document.getElementById('scoreVal');
-      var segEls = [];
-
-      function ensureSegments(count){
-        while(segEls.length < count){
-          var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          p.setAttribute('class', 'chart-seg');
-          lineGroup.appendChild(p);
-          segEls.push(p);
-        }
-      }
-
-      function render(t){
-        var pts = [];
-        for(var i=0;i<=SAMPLES;i++){
-          var x = (W/SAMPLES) * i;
-          var y = scoreToY(scoreAt(x, t));
-          pts.push([x, y]);
-        }
-
-        ensureSegments(pts.length - 1);
-        for(var i=0;i<pts.length-1;i++){
-          var c = segControlPoints(pts, i);
-          var p1 = pts[i], p2 = pts[i+1];
-          var d = 'M' + p1[0].toFixed(1) + ',' + p1[1].toFixed(1) +
-                  ' C' + c[0].toFixed(1) + ',' + c[1].toFixed(1) + ' ' + c[2].toFixed(1) + ',' + c[3].toFixed(1) + ' ' + p2[0].toFixed(1) + ',' + p2[1].toFixed(1);
-          segEls[i].setAttribute('d', d);
-          // screen y decreasing = value rising = purple; y increasing = value falling = red
-          var rising = p2[1] < p1[1];
-          segEls[i].setAttribute('stroke', rising ? '#986BE0' : '#ff4d4d');
-        }
-
-        var fullPath = fullSmoothPath(pts);
-        fill.setAttribute('d', fullPath + 'L' + W + ',' + H + ' L0,' + H + ' Z');
-
-        var lastPt = pts[pts.length-1];
-        var prevPt = pts[pts.length-2];
-        dot.setAttribute('cy', lastPt[1].toFixed(1));
-        dot.setAttribute('fill', lastPt[1] < prevPt[1] ? '#986BE0' : '#ff4d4d');
-        var rising2 = lastPt[1] < prevPt[1];
-        val.style.color = rising2 ? '#986BE0' : '#ff4d4d';
-        var lastScore = scoreAt(W, t);
-        val.textContent = Math.round(lastScore) + '%';
-      }
-
-      var t0 = null;
-      function frame(ts){
-        if(!t0) t0 = ts;
-        var t = (ts - t0) / 1000;
-        render(t);
-        requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    })();
-  </script>
-
-  <script>
-    (function(){
-      // Real, shared-across-all-visitors counter using the free CountAPI service.
-      // Every device that opens this page and clicks Download increments the same number.
-      var NAMESPACE = 'ansxcheats-gameoptimizer';
-      var KEY = 'downloads';
-      var countEl = document.getElementById('downloadCount');
-
-      function formatCount(n){
-        return n.toLocaleString() + ' users downloaded';
-      }
-
-      function showCount(n){
-        countEl.innerHTML = '<b>' + n.toLocaleString() + '</b> users downloaded';
-        var row = document.getElementById('totalDownl    padding: 16px 16px;
-    margin-bottom: 14px;
-  }
-  .panel-title{
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--accent);
-    font-family: var(--mono);
-    margin-bottom: 10px;
-  }
-
-  .row{
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 9px 0;
-    border-bottom: 1px solid var(--panel-line);
-    font-size: 13.5px;
-  }
-  .row:last-child{ border-bottom: none; }
-  .row .k{ color: var(--text-dim); }
-  .row .v{ font-family: var(--mono); font-size: 12.5px; text-align:right; }
-
-  .feature{
-    display:flex; gap:10px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--panel-line);
-  }
-  .feature:last-child{ border-bottom:none; }
-  .feature .dot{
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent);
-    margin-top: 6px;
-    flex-shrink: 0;
-    box-shadow: 0 0 8px var(--accent);
-  }
-  .feature .txt{ font-size: 13px; line-height: 1.5; color: var(--text); }
-  .fn-grid{
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 4px;
-  }
-  .fn-item{ text-align:center; }
-  .fn-item .thumb{
-    width: 100%;
-    aspect-ratio: 3/6;
-    border-radius: 12px;
-    overflow: hidden;
-    background: linear-gradient(155deg, #241a30, #120e18);
-    border: 1px solid var(--panel-line);
-  }
-  .fn-item .thumb img{ width:100%; height:100%; object-fit: cover; object-position: center; display:block; cursor: pointer; transition: transform 0.15s ease; }
-  .fn-item .thumb img:active{ transform: scale(0.96); }
-
-  .lightbox{
-    position: fixed;
-    inset: 0;
-    background: rgba(5,5,8,0.92);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-    padding: 24px;
-  }
-  .lightbox.open{ display: flex; }
-  .lightbox img{
-    max-width: 100%;
-    max-height: 85vh;
-    border-radius: 14px;
-    border: 1px solid var(--panel-line);
-    box-shadow: 0 20px 60px -20px rgba(152,107,224,0.5);
-  }
-  .lightbox-close{
-    position: absolute;
-    top: 22px; right: 22px;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid var(--panel-line);
-    color: var(--text);
-    font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-  }
-  .fn-item .cap{
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-top: 6px;
-  }
-
-  .chart-head{
-    display:flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 10px;
-  }
-  .chart-head .lbl{ font-size: 13px; color: var(--text); }
-  .chart-head .val{
-    font-family: var(--mono);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-  .chart-box{ position: relative; width: 100%; height: 120px; }
-  .chart-box svg{ width: 100%; height: 100%; overflow: visible; }
-  .chart-line{
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 2.4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .chart-seg{
-    fill: none;
-    stroke-width: 2.4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .chart-fill{ fill: url(#chartGradient); }
-  .chart-dot{
-    fill: var(--accent);
-    filter: drop-shadow(0 0 5px var(--accent));
-  }
-  .chart-range{
-    display:flex; justify-content: space-between;
-    font-family: var(--mono); font-size: 10.5px; color: var(--text-dim);
-    margin-top: 6px;
-  }
-  .feature .txt b{ color: var(--accent); font-weight: 600; }
-
-  .meter{
-    height: 6px;
-    border-radius: 4px;
-    background: #0a0f0c;
-    overflow: hidden;
-    margin-top: 6px;
-  }
-  .meter-fill{
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
-    border-radius: 4px;
-  }
-  .meter-row{ margin-bottom: 12px; }
-  .meter-row:last-child{ margin-bottom: 0; }
-  .meter-label{
-    display:flex; justify-content:space-between;
-    font-size: 12px; color: var(--text-dim);
-    margin-bottom: 2px;
-  }
-  .meter-label span:last-child{ font-family: var(--mono); color: var(--accent); }
-
-  footer{
-    text-align:center;
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-top: 22px;
-    font-family: var(--mono);
-    line-height: 1.7;
-  }
-
-  .tg-link{
-    display:flex;
-    align-items:center;
-    gap: 12px;
-    padding: 12px 4px;
-    border-bottom: 1px solid var(--panel-line);
-    text-decoration: none;
-    color: var(--text);
-  }
-  .tg-link:last-child{ border-bottom:none; }
-  .tg-icon{
-    width: 38px; height: 38px;
-    border-radius: 10px;
-    flex-shrink:0;
-    background: rgba(152,107,224,0.10);
-    border: 1px solid var(--accent-dim);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .tg-icon svg{ width: 19px; height: 19px; }
-  .tg-text{ flex:1; }
-  .tg-title{ font-size: 13.5px; font-weight: 600; }
-  .tg-sub{ font-size: 11.5px; color: var(--text-dim); margin-top: 1px; }
-  .tg-arrow{ color: var(--text-dim); font-size: 14px; }
-</style>
-</head>
-<body>
-
-  <div class="header-row">
-    <div class="icon-wrap">
-      <img src="https://i.ibb.co/KcZ3059n/Picsart-26-08-09-08-27-02-991.png" alt="App Logo" class="cache-img">
-    </div>
-    <div class="header-text">
-      <h1>ANSxCHEATS PLUGIN TOOLS</h1>
-      <div class="badge-row">
-        <span class="badge">v1.0</span>
-        <span class="badge">Android 8.0+</span>
-        <span class="badge">Free</span>
+    <div class="note reveal">
+      <div class="icon-box" style="flex-shrink:0"><svg><use href="#i-vpn"/></svg></div>
+      <div>
+        <b>NOTE : VPN NEED</b>
+        <p>A VPN connection is required to use this app.</p>
       </div>
     </div>
   </div>
+</section>
 
-  <button class="download-btn" id="downloadBtn">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 3v12"/>
-      <path d="M7 10l5 5 5-5"/>
-      <path d="M4 19h16"/>
-    </svg>
-    <span id="downloadBtnText">Download</span>
-  </button>
-  <div class="download-count" id="downloadCount">&nbsp;</div>
-
-  <div class="panel">
-    <div class="panel-title">Application Info</div>
-    <div class="row"><span class="k">Version</span><span class="v">1.0</span></div>
-    <div class="row"><span class="k">Package name</span><span class="v">com.ansxcheats.tools</span></div>
-    <div class="row"><span class="k">Developer</span><span class="v">ANSxCHEATS</span></div>
-    <div class="row"><span class="k">Support Android</span><span class="v">8 + 16</span></div>
-    <div class="row"><span class="k">Size</span><span class="v"> 12.0 MB</span></div>
-    <div class="row"><span class="k">Last updated</span><span class="v">Aug 2026</span></div>
-    <div class="row"><span class="k">Total Download</span><span class="v" id="totalDownloadRow">—</span></div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title">Function</div>
-    <div class="fn-grid">
-      <div class="fn-item">
-        <div class="thumb"><img src="https://i.ibb.co/39ngCDYn/Screenshot-20260727-180049.jpg" data-cache-src="https://i.ibb.co/39ngCDYn/Screenshot-20260727-180049.jpg" alt="Home Page" class="cache-img"></div>
-        <div class="cap">Home Page</div>
-      </div>
-      <div class="fn-item">
-        <div class="thumb"><img src="https://i.ibb.co/9HLWWP7Z/Screenshot-20260727-180054.jpg" data-cache-src="https://i.ibb.co/9HLWWP7Z/Screenshot-20260727-180054.jpg" alt="Plugin Page" class="cache-img"></div>
-        <div class="cap">Plugin Page</div>
-      </div>
-      <div class="fn-item">
-        <div class="thumb"><img src="https://i.ibb.co/s0pDMj2/Screenshot-20260808-063855.jpg" data-cache-src="https://i.ibb.co/s0pDMj2/Screenshot-20260808-063855.jpg" alt="Setting Page" class="cache-img"></div>
-        <div class="cap">Setting Page</div>
-      </div>
+<!-- LINKS -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="icon-box"><svg><use href="#i-chat"/></svg></div>
+      <div><h2>Support</h2><small>Stay connected</small></div>
+    </div>
+    <div class="links">
+      <a class="link" href="https://t.me/CloudeHubPluginTools" target="_blank" rel="noopener">
+        <div class="icon-box"><svg style="color:#fff;stroke:#fff"><use href="#i-telegram" style="color:#fff"/></svg></div>
+        <div><b>Telegram Channel</b><small>Updates &amp; announcements</small></div>
+        <svg class="arrow"><use href="#i-arrow"/></svg>
+      </a>
+      <a class="link" href="https://t.me/XyzzAns" target="_blank" rel="noopener">
+        <div class="icon-box"><svg><use href="#i-user"/></svg></div>
+        <div><b>Owner</b><small>@XyzzAns</small></div>
+        <svg class="arrow"><use href="#i-arrow"/></svg>
+      </a>
     </div>
   </div>
+</section>
 
-  <div class="panel">
-    <div class="panel-title">Features</div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Storage Permission Request</b> — This permission is need tools while plugin your device for .</div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Notification Permission Request</b> — Needed notification access to send you alert tools update & game update and more. Plugin status and plugin security warming.</div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>SAF Permission Request</b> — This permission for low android injection Android 8+12 </div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Shizuku Permission Request</b> — This permission for high android injection root access </div>
-    </div>
-    <div class="feature">
-      <div class="dot"></div>
-      <div class="txt"><b>Quality tools </b> — Use and give me feedback</div>
-    </div>
-  </div>
+<footer>
+  <div class="wrap">© 2026 Cloude Hub Plugin Tools · All rights reserved</div>
+</footer>
 
-  <div class="panel">
-    <div class="chart-head">
-      <span class="lbl">Bypass Production :</span>
-      <span class="val" id="scoreVal">66%</span>
-    </div>
-    <div class="chart-box">
-      <svg viewBox="0 0 300 100" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#986BE0" stop-opacity="0.35"/>
-            <stop offset="100%" stop-color="#986BE0" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <path class="chart-fill" id="chartFill" d=""/>
-        <g id="chartLineGroup"></g>
-        <circle class="chart-dot" id="chartDot" cx="300" cy="50" r="4"/>
-      </svg>
-    </div>
-    <div class="chart-range">
-      <span>Min 66%</span>
-      <span>Max 99%</span>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title">Device Snapshot</div>
-    <div class="meter-row">
-      <div class="meter-label"><span>RAM Available</span><span>62%</span></div>
-      <div class="meter"><div class="meter-fill" style="width:62%"></div></div>
-    </div>
-    <div class="meter-row">
-      <div class="meter-label"><span>Storage Free</span><span>41%</span></div>
-      <div class="meter"><div class="meter-fill" style="width:41%"></div></div>
-    </div>
-    <div class="meter-row">
-      <div class="meter-label"><span>Optimization Score</span><span>88%</span></div>
-      <div class="meter"><div class="meter-fill" style="width:88%"></div></div>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title">Social</div>
-    <a class="tg-link" href="https://t.me/ANSxCHEATSxTOOLS" target="_blank">
-      <div class="tg-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 4L3 11l6 2.5M21 4l-3.5 16L9.5 13.5M21 4L9.5 13.5m0 0V19l3-3"/>
-        </svg>
-      </div>
-      <div class="tg-text">
-        <div class="tg-title">Channel</div>
-        <div class="tg-sub">Updates &amp; announcements</div>
-      </div>
-      <div class="tg-arrow">›</div>
-    </a>
-    <a class="tg-link" href="https://t.me/XyzzAns" target="_blank">
-      <div class="tg-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="3.5"/>
-          <path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/>
-        </svg>
-      </div>
-      <div class="tg-text">
-        <div class="tg-title">App Owner</div>
-        <div class="tg-sub">Contact the developer</div>
-      </div>
-      <div class="tg-arrow">›</div>
-    </a>
-    <a class="tg-link" href="https://www.tiktok.com/@ansxcheats?_r=1&_t=ZS-98hHonRfqzq" target="_blank">
-      <div class="tg-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 3v10.5a3.5 3.5 0 1 1-3.5-3.5"/>
-          <path d="M15 3c.3 2.2 2 4 4.5 4.2"/>
-        </svg>
-      </div>
-      <div class="tg-text">
-        <div class="tg-title">TikTok</div>
-        <div class="tg-sub">Clips &amp; short demos</div>
-      </div>
-      <div class="tg-arrow">›</div>
-    </a>
-    <a class="tg-link" href="https://www.youtube.com/@ANSxCHEATS" target="_blank">
-      <div class="tg-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#986BE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="6" width="18" height="12" rx="3"/>
-          <path d="M11 9.5l4.5 2.5-4.5 2.5v-5z" fill="#986BE0" stroke="none"/>
-        </svg>
-      </div>
-      <div class="tg-text">
-        <div class="tg-title">YouTube</div>
-        <div class="tg-sub">Tutorials &amp; walkthroughs</div>
-      </div>
-      <div class="tg-arrow">›</div>
-    </a>
-  </div>
-
-  <footer>
-    © 2026 ANSxCHEATS &nbsp;·&nbsp; Built with Sketchware<br>
-    All optimizations run locally on your device
-  </footer>
-
-  <div class="lightbox" id="lightbox">
-    <div class="lightbox-close" id="lightboxClose">✕</div>
-    <img id="lightboxImg" src="" alt="">
-  </div>
-  <script>
-    (function(){
-      var MIN = 66, MAX = 99;
-      var MID = (MIN+MAX)/2, AMP = (MAX-MIN)/2;
-      var W = 300, H = 100;
-      var SAMPLES = 24;
-
-      function scoreToY(s){ return 90 - (s - MIN) / (MAX - MIN) * 80; }
-
-      // layered sine waves, all traveling left-to-right (phase = kx - speed*t)
-      function scoreAt(x, t){
-        var s = MID
-          + AMP * 0.55 * Math.sin(x * 0.021 - t * 1.1)
-          + AMP * 0.30 * Math.sin(x * 0.045 - t * 1.7 + 1.1)
-          + AMP * 0.15 * Math.sin(x * 0.011 - t * 0.6 + 2.4);
-        return Math.max(MIN, Math.min(MAX, s));
-      }
-
-      // Catmull-Rom control points for the segment from pts[i] to pts[i+1]
-      function segControlPoints(pts, i){
-        var p0 = pts[i-1] || pts[i];
-        var p1 = pts[i];
-        var p2 = pts[i+1];
-        var p3 = pts[i+2] || p2;
-        var c1x = p1[0] + (p2[0]-p0[0])/6;
-        var c1y = p1[1] + (p2[1]-p0[1])/6;
-        var c2x = p2[0] - (p3[0]-p1[0])/6;
-        var c2y = p2[1] - (p3[1]-p1[1])/6;
-        return [c1x, c1y, c2x, c2y];
-      }
-
-      function fullSmoothPath(pts){
-        var d = 'M' + pts[0][0].toFixed(1) + ',' + pts[0][1].toFixed(1) + ' ';
-        for(var i=0;i<pts.length-1;i++){
-          var c = segControlPoints(pts, i);
-          var p2 = pts[i+1];
-          d += 'C' + c[0].toFixed(1) + ',' + c[1].toFixed(1) + ' ' + c[2].toFixed(1) + ',' + c[3].toFixed(1) + ' ' + p2[0].toFixed(1) + ',' + p2[1].toFixed(1) + ' ';
-        }
-        return d;
-      }
-
-      var lineGroup = document.getElementById('chartLineGroup');
-      var fill = document.getElementById('chartFill');
-      var dot = document.getElementById('chartDot');
-      var val = document.getElementById('scoreVal');
-      var segEls = [];
-
-      function ensureSegments(count){
-        while(segEls.length < count){
-          var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          p.setAttribute('class', 'chart-seg');
-          lineGroup.appendChild(p);
-          segEls.push(p);
-        }
-      }
-
-      function render(t){
-        var pts = [];
-        for(var i=0;i<=SAMPLES;i++){
-          var x = (W/SAMPLES) * i;
-          var y = scoreToY(scoreAt(x, t));
-          pts.push([x, y]);
-        }
-
-        ensureSegments(pts.length - 1);
-        for(var i=0;i<pts.length-1;i++){
-          var c = segControlPoints(pts, i);
-          var p1 = pts[i], p2 = pts[i+1];
-          var d = 'M' + p1[0].toFixed(1) + ',' + p1[1].toFixed(1) +
-                  ' C' + c[0].toFixed(1) + ',' + c[1].toFixed(1) + ' ' + c[2].toFixed(1) + ',' + c[3].toFixed(1) + ' ' + p2[0].toFixed(1) + ',' + p2[1].toFixed(1);
-          segEls[i].setAttribute('d', d);
-          // screen y decreasing = value rising = purple; y increasing = value falling = red
-          var rising = p2[1] < p1[1];
-          segEls[i].setAttribute('stroke', rising ? '#986BE0' : '#ff4d4d');
-        }
-
-        var fullPath = fullSmoothPath(pts);
-        fill.setAttribute('d', fullPath + 'L' + W + ',' + H + ' L0,' + H + ' Z');
-
-        var lastPt = pts[pts.length-1];
-        var prevPt = pts[pts.length-2];
-        dot.setAttribute('cy', lastPt[1].toFixed(1));
-        dot.setAttribute('fill', lastPt[1] < prevPt[1] ? '#986BE0' : '#ff4d4d');
-        var rising2 = lastPt[1] < prevPt[1];
-        val.style.color = rising2 ? '#986BE0' : '#ff4d4d';
-        var lastScore = scoreAt(W, t);
-        val.textContent = Math.round(lastScore) + '%';
-      }
-
-      var t0 = null;
-      function frame(ts){
-        if(!t0) t0 = ts;
-        var t = (ts - t0) / 1000;
-        render(t);
-        requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    })();
-  </script>
-
-  <script>
-    (function(){
-      // Real, shared-across-all-visitors counter using the free CountAPI service.
-      // Every device that opens this page and clicks Download increments the same number.
-      var NAMESPACE = 'ansxcheats-gameoptimizer';
-      var KEY = 'downloads';
-      var countEl = document.getElementById('downloadCount');
-
-      function formatCount(n){
-        return n.toLocaleString() + ' users downloaded';
-      }
-
-      function showCount(n){
-        countEl.innerHTML = '<b>' + n.toLocaleString() + '</b> users downloaded';
-        var row = document.getElementById('totalDownloadRow');
-        if(row) row.textContent = n.toLocaleString();
-      }
-
-      // Load current count on page open (does not increment)
-      fetch('https://api.countapi.xyz/get/' + NAMESPACE + '/' + KEY)
-        .then(function(r){ return r.json(); })
-        .then(function(data){
-          if (data && typeof data.value === 'number') showCount(data.value);
-          else countEl.innerHTML = '';
-        })
-        .catch(function(){ countEl.innerHTML = ''; });
-
-      window.__bumpDownloadCount = function(){
-        fetch('https://api.countapi.xyz/hit/' + NAMESPACE + '/' + KEY)
-          .then(function(r){ return r.json(); })
-          .then(function(data){
-            if (data && typeof data.value === 'number') showCount(data.value);
-          })
-          .catch(function(){ /* count service unreachable — download still proceeds normally */ });
-      };
-    })();
-  </script>
-
-  <script>
-    (function(){
-      var APK_URL = 'https://github.com/Misterxdev-pro/OnlineSever/raw/main/ANSxCHEATS.apk';
-      var btn = document.getElementById('downloadBtn');
-      var btnText = document.getElementById('downloadBtnText');
-
-      btn.addEventListener('click', function(){
-        if (typeof window.__bumpDownloadCount === 'function') window.__bumpDownloadCount();
-
-        // If the Sketchware app has exposed a JS interface (e.g. addJavascriptInterface(obj, "Android")),
-        // hand the URL to native code so it can use DownloadManager + a FileProvider install intent.
-        if (typeof Android !== 'undefined' && typeof Android.downloadAndInstall === 'function') {
-          Android.downloadAndInstall(APK_URL);
-          btnText.textContent = 'Downloading…';
-        } else {
-          // Fallback for plain browsers / no bridge yet: normal download, user installs manually.
-          btnText.textContent = 'Downloading…';
-          var a = document.createElement('a');
-          a.href = APK_URL;
-          a.download = 'ANSxCHEATS.apk';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          setTimeout(function(){ btnText.textContent = 'Download'; }, 2500);
-        }
-      });
-    })();
-  </script>  <script>
-    (function(){
-      // Caches remote images in localStorage as base64 so repeat visits load instantly
-      // with no re-download. Works automatically in any regular browser.
-      var imgs = document.querySelectorAll('img.cache-img[data-cache-src]');
-
-      function cacheKey(url){ return 'imgcache:' + url; }
-
-      function toBase64(blob){
-        return new Promise(function(resolve, reject){
-          var reader = new FileReader();
-          reader.onloadend = function(){ resolve(reader.result); };
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
-        });
-      }
-
-      imgs.forEach(function(img){
-        try{
-          var url = img.getAttribute('data-cache-src');
-          if(!url) return;
-
-          var cached = null;
-          try { cached = localStorage.getItem(cacheKey(url)); } catch(e) {}
-
-          if(cached){
-            // instant, no network needed
-            img.src = cached;
-          } else {
-            // src is already set directly in the HTML, so the image shows right away.
-            // Just try to cache it in the background for next visit — failures here are harmless.
-            fetch(url).then(function(res){ return res.blob(); })
-              .then(toBase64)
-              .then(function(base64){
-                try { localStorage.setItem(cacheKey(url), base64); } catch(e) {}
-              })
-              .catch(function(){ /* blocked or offline — image already shown via src, no harm done */ });
-          }
-        } catch(e) { /* never let caching break the visible image */ }
-      });
-    })();
-  </script>  <script>
-    (function(){
-      var lightbox = document.getElementById('lightbox');
-      var lightboxImg = document.getElementById('lightboxImg');
-      var closeBtn = document.getElementById('lightboxClose');
-      var thumbs = document.querySelectorAll('.fn-item .thumb img');
-
-      thumbs.forEach(function(img){
-        img.addEventListener('click', function(){
-          lightboxImg.src = img.currentSrc || img.src;
-          lightboxImg.alt = img.alt;
-          lightbox.classList.add('open');
-        });
-      });
-
-      function close(){ lightbox.classList.remove('open'); lightboxImg.src = ''; }
-      closeBtn.addEventListener('click', close);
-      lightbox.addEventListener('click', function(e){
-        if(e.target === lightbox) close();
-      });
-    })();
-  </script>
+<script>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+  },{threshold:.12});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
 </body>
 </html>
